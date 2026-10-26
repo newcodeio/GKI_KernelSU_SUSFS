@@ -138,14 +138,14 @@ runs:
       shell: bash
       working-directory: ${{ github.workspace }}/kernel/common
       run: |
-                # 6.1.176 rebase added a trace/hooks/blk.h context line that 6.1.124
+        # 6.1.176 rebase added a trace/hooks/blk.h context line that 6.1.124
         # does not have, and that header is absent there too. Adjust only
         # that hunk so the rest of the current SUSFS patch still applies.
         if [ "${{ inputs.version }}" = "android14-6.1" ] && ! grep -q '<trace/hooks/blk.h>' fs/namespace.c; then
           python3 "${{ github.workspace }}/.github/scripts/susfs_namespace_61.py" \
             "50_add_susfs_in_gki-${{ inputs.version }}.patch"
         fi
-patch -p1 < 50_add_susfs_in_gki-${{ inputs.version }}.patch
+        patch -p1 < 50_add_susfs_in_gki-${{ inputs.version }}.patch
 
         # SUSFS's OPEN_REDIRECT code unconditionally calls VMA_PAD_START(), which
         # only exists on GKI branches that carry Google's page-size-migration
